@@ -18,87 +18,53 @@ int main(int argc, char *argv[])
 
     /**
      *
-     * Lopp through the arguments
+     * Split the arg and fill the vars
      *
      */
-    for (int i = 0; i < argc; i++)
+    // check if there is arg
+    if (argc != 2)
     {
-
-        /**
-         *
-         * Set the port
-         *
-         */
-
-        // if the port is on -p
-        if (strncmp(argv[i], "-p", 2) == 0)
-        {
-            if (i < argc - 1)
-            {
-                // Set the port to argument
-                port = argv[i + 1];
-
-                // Go to next argument
-                i++;
-            }
-        }
-        /**
-         *
-         * Set the host
-         *
-         */
-        else if (strncmp(argv[i], "-h", 2) == 0)
-        {
-            if (i < argc - 1)
-            {
-                // set the host pointer to the argument
-                host = argv[i + 1];
-
-                // go to the next arg
-                i++;
-            }
-        }
-
-        /**
-         *
-         * Set the username
-         *
-         */
-        else if (strncmp(argv[i], "-u", 2) == 0)
-        {
-            if (i < argc - 1)
-            {
-                // set the host pointer to the argument
-                username = argv[i + 1];
-
-                // go to the next arg
-                i++;
-            }
-        }
-    }
-
-    /**
-     *
-     * Check if the host is not entered, return error
-     *
-     */
-    if (!host)
-    {
-        printf("The host was not entered");
+        printf("Please enter the args correctly! \n");
 
         return 0;
     }
 
-    /**
-     *
-     * Check if the username is not entered, return error
-     *
-     */
-    if (!username)
+    char *token = strtok(argv[1], "@");
+    if (token)
     {
-        printf("The username was not entered");
+        // the string before @ is the username
+        username = token;
 
-        return 0;
+        // split remaining part and fill the host
+        token = strtok(NULL, ":");
+        if (token)
+        {
+            host = token;
+
+            // split remaining part and fill the port
+            token = strtok(NULL, ":");
+            if (token)
+            {
+                port = token;
+            }
+            else
+            {
+                // if port was not declared, set it to 22
+                port = "22";
+            }
+        }
+    }
+
+    // Check if data entered is correct
+    if (username && host && port >= 0)
+    {
+        printf("User: %s\n", username);
+        printf("Host: %s\n", host);
+        printf("Port: %s\n", port);
+    }
+    else
+    {
+        printf("Invalid input string format.\n");
     }
 
     /**
