@@ -3,7 +3,13 @@
 This program, runs a vpn like proxy on port 1080 on the client system using ssh in **LINUX**.
 ## Installation
 
-I am working on it.
+If you are on any debian based repos, just Download the package from the releases and install it.
+or can install it using:
+```bash
+
+```
+
+otherwise, build it yourself. i don't know!
 
 # How to use
 
@@ -39,7 +45,11 @@ sshvpn pid
 ```
 It prints something like this:
 ``SSH process ID: 59526``
-## License
+
+# Help
+just edit that main.c file.
+
+# License
 
 I don't know anything about this political stuff, feel free to use or change or anything you want.
 
