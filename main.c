@@ -2,6 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 
+int get_the_process_id()
+{
+    // Run a command to list processes and filter for the SSH process
+    FILE *psOutput = popen("ps aux | grep 'ssh -D 1080 -f -C -q -N -p' | grep -v grep | awk '{print $2}'", "r");
+
+    if (psOutput == NULL)
+    {
+        perror("popen");
+        return -1;
+    }
+
+    char pid_buffer[256];
+    if (fgets(pid_buffer, sizeof(pid_buffer), psOutput) != NULL)
+    {
+        int pid;
+        if (sscanf(pid_buffer, "%d", &pid) == 1)
+        {
+            printf("SSH process ID: %d\n", pid);
+            return pid;
+        }
+        else
+        {
+            printf("Unable to parse the process ID.\n");
+        }
+    }
+    else
+    {
+        printf("SSH process not found.\n");
+    }
+
+    pclose(psOutput);
+    return -1;
+}
+
 int main(int argc, char *argv[])
 {
     // Define port and host pointers
@@ -15,20 +49,37 @@ int main(int argc, char *argv[])
      *
      */
     char sshCommand[1024];
-
+    
     /**
      *
      * Split the arg and fill the vars
      *
      */
+
     // check if there is arg
     if (argc != 2)
     {
-        printf("Please enter the args correctly! \n");
+        printf("Number of arguments not correct! \n");
 
         return 0;
     }
 
+    /**
+     *
+     * Get ssh proxy running process id
+     *
+     */
+    if (strncmp(argv[1], "pid", 3) == 0)
+    {
+        get_the_process_id();
+        return 0;
+    }
+
+    /**
+     *
+     * Run the ssh vpn tunnel
+     *
+     */
     char *token = strtok(argv[1], "@");
     if (token)
     {
@@ -91,4 +142,7 @@ int main(int argc, char *argv[])
     }
 
     pclose(pipe); // Close the first pipe
+
+    // Print Ok
+    printf("******\n VPN proxy running on localhost(127.0.0.1) port 1080\n******\n");
 }
