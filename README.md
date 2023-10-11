@@ -4,10 +4,6 @@ This program, runs a vpn like proxy on port 1080 on the client system using ssh 
 ## Installation
 
 If you are on any debian based repos, just Download the package from the releases and install it.
-or can install it using:
-```bash
-
-```
 
 otherwise, build it yourself. i don't know!
 
