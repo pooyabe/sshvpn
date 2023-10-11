@@ -11,6 +11,13 @@ int main(int argc, char *argv[])
 
     /**
      *
+     * The command for the ssh
+     *
+     */
+    char sshCommand[1024];
+
+    /**
+     *
      * Lopp through the arguments
      *
      */
@@ -94,7 +101,28 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    printf("Port: %s\n", port);
-    printf("Host: %s\n", host);
-    printf("UserName: %s\n", username);
+    /**
+     *
+     * Execute the interactive ssh command
+     *
+     */
+    // Use sprintf to create the ssh Command string with the values
+    sprintf(sshCommand, "ssh -D 1080 -f -C -q -N -p %s %s@%s", port, username, host);
+
+    // Open a pipe to execute the SSH command and capture its output
+    FILE *pipe = popen(sshCommand, "r");
+
+    if (pipe == NULL)
+    {
+        perror("popen");
+        return 1;
+    }
+
+    char buffer[128];
+    while (fgets(buffer, sizeof(buffer), pipe) != NULL)
+    {
+        printf("%s", buffer); // Print each line of output
+    }
+
+    pclose(pipe); // Close the first pipe
 }
