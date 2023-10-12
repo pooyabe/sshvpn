@@ -1,7 +1,0 @@
-Package: sshvpn
-Version: 1.0
-Maintainer: Pooya Behravesh <pooyabehravesh@gmail.com>
-Depends: ssh
-Description: This program, runs a vpn like proxy on port 1080 on the client system using ssh in LINUX.
-Architecture: all
-Homepage: https://github.com/pooyabe/sshvpn
