@@ -5,7 +5,7 @@
 int get_the_process_id()
 {
     // Run a command to list processes and filter for the SSH process
-    FILE *psOutput = popen("ps aux | grep 'ssh -D 1080 -f -C -q -N -p' | grep -v grep | awk '{print $2}'", "r");
+    FILE *psOutput = popen("ps aux | grep 'ssh -D 1080 -f -C -N -p' | grep -v grep | awk '{print $2}'", "r");
 
     if (psOutput == NULL)
     {
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
      *
      */
     // Use sprintf to create the ssh Command string with the values
-    sprintf(sshCommand, "ssh -D 1080 -f -C -q -N -p %s %s@%s", port, username, host);
+    sprintf(sshCommand, "ssh -D 1080 -f -C -N -p %s %s@%s", port, username, host);
 
     // Open a pipe to execute the SSH command and capture its output
     FILE *pipe = popen(sshCommand, "r");
