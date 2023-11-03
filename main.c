@@ -127,6 +127,17 @@ int main(int argc, char *argv[])
      * Run the ssh vpn tunnel
      *
      */
+    // Error when there is another process
+
+    int the_id = get_the_process_id();
+
+    if (the_id != -1)
+    {
+        printf("ERROR: There is another ssh vpn process running");
+        return 0;
+    }
+
+
     char *token = strtok(argv[1], "@");
     if (token)
     {
