@@ -5,7 +5,7 @@
 int get_the_process_id()
 {
     // Run a command to list processes and filter for the SSH process
-    FILE *psOutput = popen("ps aux | grep 'ssh -D 1080 -f -C -N -p' | grep -v grep | awk '{print $2}'", "r");
+    FILE *psOutput = popen("ps aux | grep 'ssh -f -C -N -D ' | grep -v grep | awk '{print $2}'", "r");
 
     if (psOutput == NULL)
     {
@@ -79,6 +79,9 @@ int main(int argc, char *argv[])
     char *host = NULL;
     char *username = NULL;
 
+    // Define IP
+    char *ip = NULL;
+
     /**
      *
      * The command for the ssh
@@ -137,7 +140,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
     char *token = strtok(argv[1], "@");
     if (token)
     {
@@ -155,21 +157,28 @@ int main(int argc, char *argv[])
             if (token)
             {
                 port = token;
-            }
-            else
-            {
-                // if port was not declared, set it to 22
-                port = "22";
+
+                // split the remaining after = and fill the ip target
+                token = strtok(NULL, ":");
+                if (token)
+                {
+                    ip = token;
+                }
+                else
+                {
+                    ip = "127.0.0.1";
+                }
             }
         }
     }
 
     // Check if data entered is correct
-    if (username && host && port >= 0)
+    if (username && host && port && ip >= 0)
     {
         printf("User: %s\n", username);
         printf("Host: %s\n", host);
         printf("Port: %s\n", port);
+        printf("Proxy on: %s:1080\n", ip);
     }
     else
     {
@@ -182,7 +191,7 @@ int main(int argc, char *argv[])
      *
      */
     // Use sprintf to create the ssh Command string with the values
-    sprintf(sshCommand, "ssh -D 1080 -f -C -N -p %s %s@%s", port, username, host);
+    sprintf(sshCommand, "ssh -f -C -N -D %s:1080 -p %s %s@%s", ip, port, username, host);
 
     // Open a pipe to execute the SSH command and capture its output
     FILE *pipe = popen(sshCommand, "r");
@@ -202,5 +211,5 @@ int main(int argc, char *argv[])
     pclose(pipe); // Close the first pipe
 
     // Print Ok
-    printf("******\n VPN proxy running on localhost(127.0.0.1) port 1080\n******\n");
+    printf("******\n VPN proxy running on %s:1080\n******\n", ip);
 }

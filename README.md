@@ -15,17 +15,18 @@ assume you want to connect to a vpn or server with this information:
 - Host: sub.host.com
 - UserName: user
 - port: 4512
+- **Optional** tunnel IP target (for example if you want to run the proxy tunnel on an IP except 127.0.0.1): 192.168.1.200
 
 so you can run this command:
 
 ```bash
-sshvpn user@sub.host.com:4512
+sshvpn user@sub.host.com:4512:192.168.1.200
 ```
 
-**note** : if the port is 22, you can leave it:
+**note** : if you leave the last ip address not assigned, proxy will run on 127.0.0.1. like this:
 
 ```bash
-sshvpn user@sub.host.com
+sshvpn user@sub.host.com:22
 ```
 
 ## Stopping the vpn
@@ -42,7 +43,7 @@ sshvpn pid
 It prints something like this:
 ``SSH process ID: 59526``
 
-# Help
+# Contribute
 just edit that main.c file.
 
 # License
