@@ -43,6 +43,26 @@ sshvpn pid
 It prints something like this:
 ``SSH process ID: 59526``
 
+
+# Troubleshoot
+
+After connecting to some servers, you may see this error:
+```bash
+Unable to negotiate with ***.***.***.*** port ****: no matching host key type found. Their offer: ssh-rsa,ssh-dss
+```
+I could solve this problem so my script would recognize it and connects with no problem, but sorry i don't have time and mood! so you can just normally go to:
+```bash
+~/.ssh
+```
+in the **config** file add this lines:
+```bash
+Host HOST_NAME
+    HostKeyAlgorithms +ssh-rsa
+    PubkeyAcceptedKeyTypes +ssh-rsa
+```
+replace the server IP or domain and save. enjoy!
+
+
 # Contribute
 just edit that main.c file.
 
