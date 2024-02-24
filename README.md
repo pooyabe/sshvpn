@@ -48,7 +48,8 @@ It prints something like this:
 
 After connecting to some servers, you may see this error:
 ```bash
-Unable to negotiate with ***.***.***.*** port ****: no matching host key type found. Their offer: ssh-rsa,ssh-dss
+Unable to negotiate with ***.***.***.*** port ****: no matching host key type found.
+Their offer: ssh-rsa,ssh-dss
 ```
 I could solve this problem so my script would recognize it and connects with no problem, but sorry i don't have time and mood! so you can just normally go to:
 ```bash
